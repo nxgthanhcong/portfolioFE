@@ -12,12 +12,15 @@ function Header() {
     const [activeItem, setActiveItem] = useState(window.location.pathname);
     useEffect(() => {
         setActiveItem(window.location.pathname);
-        console.log("check redrender header");
     }, [window.location.pathname]);
+
+    window.onpopstate = function () {
+        setActiveItem(window.location.pathname)
+    }
 
     return (
         <div id="header" className={activeItem !== "/" ? "active" : ""}>
-            <div className="container grid wide hide">
+            <div className="container grid wide">
                 <MainTitle />
                 <Introduce />
                 <NavigationMenu

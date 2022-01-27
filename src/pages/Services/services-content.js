@@ -41,7 +41,7 @@ function ServicesContent() {
                         <div className="col l-4 m-6 c-12">
                             <div className="service__item">
                                 <div className="service-img">
-                                    <img src={item.img} />
+                                    <img src={item.img} alt="z" />
                                 </div>
                                 <h2>{item.title}</h2>
                                 <p>{item.description}</p>

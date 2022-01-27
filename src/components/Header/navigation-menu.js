@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { hanleChangeMobileMenuState } from '../../features/mobile/mobileSlice';
 
 function NavigationMenu(props) {
+
+    const mobile = useSelector(state => state.mobile);
+    const dispatch = useDispatch();
 
     const { activeItem, setActiveItem } = props;
     const listNavigationItems = [
@@ -45,11 +50,14 @@ function NavigationMenu(props) {
 
     const handleNavigationItemClick = function (item) {
         setActiveItem(item.name);
+        dispatch(hanleChangeMobileMenuState());
         smoothScroll();
     }
 
     return (
-        <ul className="header__list header__navigation">
+        <ul className={mobile.isOpenMobileMenu
+            ? "header__list header__navigation header__navigation--mobile"
+            : "header__list header__navigation"}>
             {
                 listNavigationItems.map(item => (
                     <li

@@ -41,6 +41,10 @@ export const voiceSlice = createSlice({
                 state.isOpenCamera = true;
             }
 
+            if (action.payload.includes("camera off")) {
+                state.isOpenCamera = false;
+            }
+
             if (action.payload.includes("menu")) {
                 var itemText = action.payload.split("menu")[1];
                 state.menuItemText = itemText.toLowerCase();

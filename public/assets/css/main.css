@@ -580,13 +580,19 @@ iframe {
     flex-direction: column;
     text-align: center;
     margin-bottom: 20px;
-    color: #000;
-    /* border-radius: 4px; */
+    color: #fff;
+    opacity: 0.7;
+}
+
+.service__item img {
+    -webkit-filter: grayscale(1) invert(1);
+    filter: grayscale(1) invert(1);
 }
 
 .service__item:hover {
     background: var(--primary-color);
     color: #fff;
+    opacity: 1;
 }
 
 .service__item:hover img {

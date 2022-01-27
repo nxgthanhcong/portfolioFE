@@ -1,5 +1,6 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
+import "./about.css";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -48,6 +49,18 @@ function AboutTestimonial() {
                 spaceBetween={50}
                 slidesPerView={3}
                 className="testimonial-slider"
+                breakpoints={{
+                    // when window width is >= 640px
+                    640: {
+                        width: 640,
+                        slidesPerView: 1,
+                    },
+                    // when window width is >= 768px
+                    768: {
+                        width: 768,
+                        slidesPerView: 1,
+                    },
+                }}
             >
                 {
                     listTestimonial && listTestimonial.map(item => (

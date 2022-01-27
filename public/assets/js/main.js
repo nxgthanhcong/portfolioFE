@@ -447,7 +447,7 @@ const app = {
             _this.handleVoice(text);
         }
 
-        // menu-toggle
+        // menu-toggle 
 
         eMenuToggle.addEventListener("click", () => {
             eMenuToggle.classList.toggle("active");
