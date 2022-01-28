@@ -19,7 +19,7 @@ import CVContent from './components/CVContent';
 import MusicPlayer from './components/MusicPlayer';
 
 import Tour from 'reactour';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function App() {
 
@@ -42,12 +42,6 @@ function App() {
     },
     {
       selector: '.robot-btn',
-      content: `
-      -- voice features:
-      1. menu + {navigation-name}: active that section
-      2. nghe nhac: open MusicPlayer
-      Click on bot head to enter the tour again
-      `,
       content: () => (
         <div>
           <h2>-- hold Z key + voice:</h2>
@@ -100,6 +94,7 @@ function App() {
           onRequestClose={() => closeTour()}
           onBeforeClose={() => onBeforeTourClose()}
         />
+        <Footer />
       </Router>
     </>
   );

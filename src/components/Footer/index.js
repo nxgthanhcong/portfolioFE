@@ -1,16 +1,12 @@
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 function Footer() {
 
-    const [activeItem, setActiveItem] = useState(window.location.pathname);
-    useEffect(() => {
-        setActiveItem(window.location.pathname);
-        console.log("check redrender footer");
-    }, [window.location.pathname]);
+    const navigationMenu = useSelector(state => state.navigationMenu);
 
     return (
         <footer
-            className={activeItem !== "/" ? "footer" : "footer hide"}
+            className={navigationMenu.activeItem !== "/" ? "footer" : "footer hide"}
             id="footer"
         >
             <div className="waves">

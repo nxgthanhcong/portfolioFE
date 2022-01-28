@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { hanleChangeActiveItem } from "../../features/navigation-menu/navigationMenuSlice";
 
 import CV from "./cv";
 import IndicatorMenu from "./indicator-menu";
@@ -9,24 +11,32 @@ import NavigationMenu from "./navigation-menu";
 
 function Header() {
 
-    const [activeItem, setActiveItem] = useState(window.location.pathname);
-    useEffect(() => {
-        setActiveItem(window.location.pathname);
-    }, [window.location.pathname]);
+    const navigationMenu = useSelector(state => state.navigationMenu);
+    const dispatch = useDispatch();
 
     window.onpopstate = function () {
-        setActiveItem(window.location.pathname)
+        dispatch(hanleChangeActiveItem(window.location.pathname))
     }
 
+    useEffect(() => {
+        const pageAccessedByReload = (
+            (window.performance.navigation && window.performance.navigation.type === 1) ||
+            window.performance
+                .getEntriesByType('navigation')
+                .map((nav) => nav.type)
+                .includes('reload')
+        );
+        if (pageAccessedByReload) {
+            dispatch(hanleChangeActiveItem(window.location.pathname))
+        }
+    }, [])
+
     return (
-        <div id="header" className={activeItem !== "/" ? "active" : ""}>
+        <div id="header" className={navigationMenu.activeItem !== "/" ? "active" : ""}>
             <div className="container grid wide">
                 <MainTitle />
                 <Introduce />
-                <NavigationMenu
-                    activeItem={activeItem}
-                    setActiveItem={setActiveItem}
-                />
+                <NavigationMenu />
                 <IndicatorMenu />
                 <MenuToggle />
             </div >

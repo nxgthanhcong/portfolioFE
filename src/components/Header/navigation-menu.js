@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { hanleChangeMobileMenuState } from '../../features/mobile/mobileSlice';
+import { hanleChangeActiveItem } from '../../features/navigation-menu/navigationMenuSlice';
 
-function NavigationMenu(props) {
+function NavigationMenu() {
 
     const mobile = useSelector(state => state.mobile);
+    const navigationMenu = useSelector(state => state.navigationMenu);
     const dispatch = useDispatch();
 
-    const { activeItem, setActiveItem } = props;
     const listNavigationItems = [
         {
             path: "/",
@@ -49,7 +50,7 @@ function NavigationMenu(props) {
     }
 
     const handleNavigationItemClick = function (item) {
-        setActiveItem(item.name);
+        dispatch(hanleChangeActiveItem(item.path))
         dispatch(hanleChangeMobileMenuState());
         smoothScroll();
     }
@@ -65,7 +66,7 @@ function NavigationMenu(props) {
                     >
                         <Link
                             onClick={() => handleNavigationItemClick(item)}
-                            className={activeItem === item.path ? "animated-button" : ""}
+                            className={navigationMenu.activeItem === item.path ? "animated-button" : ""}
                             to={item.path}
                             style={{ "--clr": item.color }}
                         >

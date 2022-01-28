@@ -1,9 +1,101 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from 'react-redux';
+import Tour from 'reactour';
 
 function MusicPlayer() {
 
-    const voice = useSelector((state) => state.voice)
+    const steps = [
+        {
+            selector: '.music-player',
+            content: () => (<h2>Wellcome to my error MusicPlayer :)</h2>),
+            style: {
+                color: '#000'
+            }
+        },
+        {
+            selector: '.control-btn.repeat-btn',
+            content: () => (
+                <>
+                    <b>Repeat song: </b>
+                    <span>hold Z & say "repeat"</span>
+                </>
+            ),
+            style: {
+                color: '#000'
+            }
+        },
+        {
+            selector: '.control-btn.prev-btn',
+            content: () => (
+                <>
+                    <b>Previous song: </b>
+                    <span>hold Z & say "previous"</span>
+                </>
+            ),
+            style: {
+                color: '#000'
+            }
+        },
+        {
+            selector: '.control-btn.toggle-play-btn',
+            content: () => (
+                <>
+                    <b>Play/pause song: </b>
+                    <span>hold Z & say "play/pause"</span>
+                </>
+            ),
+            style: {
+                color: '#000'
+            }
+        },
+        {
+            selector: '.control-btn.next-btn',
+            content: () => (
+                <>
+                    <b>Next song: </b>
+                    <span>hold Z & say "next"</span>
+                </>
+            ),
+            style: {
+                color: '#000'
+            }
+        },
+        {
+            selector: '.control-btn.random-btn',
+            content: () => (
+                <>
+                    <b>Random song: </b>
+                    <span>hold Z & say "random"</span>
+                </>
+            ),
+            style: {
+                color: '#000'
+            }
+        },
+        {
+            selector: '.music-player__list-songs',
+            content: () => (
+                <>
+                    <b>Play percific song: </b>
+                    <span>hold Z & say "choi bai + songName"</span>
+                </>
+            ),
+            style: {
+                color: '#000'
+            }
+        },
+    ]
+
+    const voice = useSelector((state) => state.voice);
+    const [isOpenTour, setIsOpenTour] = useState(voice.isListenMusic);
+
+    useEffect(() => {
+        setIsOpenTour(voice.isListenMusic);
+    }, [voice.isListenMusic])
+
+    const closeTour = () => {
+        setIsOpenTour(false);
+    };
 
     const listSongs = [
         {
@@ -200,118 +292,125 @@ function MusicPlayer() {
     })
     //voice.isListenMusic
     return (
-        <div className={voice.isListenMusic ? "" : "hide"}>
-            <div className={isPlaying
-                ? "music-player music-player--play"
-                : "music-player"}
-                ref={eMP}
-            >
-                <div className="music-player__dashboard"
-                    ref={eDashboard}
+        <>
+            <div className={voice.isListenMusic ? "" : "hide"}>
+                <div className={isPlaying
+                    ? "music-player music-player--play"
+                    : "music-player"}
+                    ref={eMP}
                 >
-                    <div className="music-player__header">
-                        <div className="down-btn">
-                            <i className="fas fa-chevron-down" />
-                        </div>
-                        <div className="text">
-                            <p>Now playing:</p>
-                            <h3>{currentSong.name}</h3>
-                        </div>
-                        <div className="plus-btn">
-                            <i className="fas fa-plus" />
-                        </div>
-                    </div>
-                    <div className="music-player__song"
-                        ref={cd}
+                    <div className="music-player__dashboard"
+                        ref={eDashboard}
                     >
-                        <div
-                            ref={eCdImage}
-                            className="song__thumb"
-                            style={{
-                                backgroundImage: `url('${currentSong.image}')`,
-                            }}
-                        >
-                        </div>
-                    </div>
-                    <div className="music-player__controls">
-                        <div className={isRepeat
-                            ? "control-btn control-btn--active repeat-btn"
-                            : "control-btn repeat-btn"}
-                            onClick={() => setIsRepeat(!isRepeat)}
-                        >
-                            <i className="fas fa-redo-alt" />
-                        </div>
-                        <div className="control-btn prev-btn"
-                            onClick={() => handlePrevSongClick()}
-                        >
-                            <i className="fas fa-step-backward" />
-                        </div>
-                        <div
-                            className="control-btn toggle-play-btn"
-                            onClick={() => handleTogglePlayClick()}
-                        >
-                            <div className="play-btn">
-                                <i className="fas fa-play" />
+                        <div className="music-player__header">
+                            <div className="down-btn">
+                                <i className="fas fa-chevron-down" />
                             </div>
-                            <div className="pause-btn">
-                                <i className="fas fa-pause" />
+                            <div className="text">
+                                <p>Now playing:</p>
+                                <h3>{currentSong.name}</h3>
+                            </div>
+                            <div className="plus-btn">
+                                <i className="fas fa-plus" />
                             </div>
                         </div>
-                        <div className="control-btn next-btn"
-                            onClick={() => handleNextSongClick()}
+                        <div className="music-player__song"
+                            ref={cd}
                         >
-                            <i className="fas fa-step-forward" />
-                        </div>
-                        <div className={isRandom
-                            ? "control-btn control-btn--active random-btn"
-                            : "control-btn random-btn"}
-                            onClick={() => setIsRandom(!isRandom)}
-                        >
-                            <i className="fas fa-random" />
-                        </div>
-                    </div>
-                    <div className="progress">
-                        <input
-                            ref={eProgress}
-                            id="progress"
-                            type="range"
-                            min={0}
-                            max={100}
-                            defaultValue={0}
-                            step={1}
-                        />
-                        <span />
-                    </div>
-                </div>
-                <audio
-                    ref={audio}
-                    id="mucsic-player__audio"
-                    src={currentSong.audio}
-                />
-                {/* <div class="song song--play"> */}
-                <div className="music-player__list-songs"
-                    ref={eListSongs}
-                >
-                    {
-                        listSongs.map(item => (
-                            <div class="song"
-                                onClick={() => handleSongClick(item)}
+                            <div
+                                ref={eCdImage}
+                                className="song__thumb"
+                                style={{
+                                    backgroundImage: `url('${currentSong.image}')`,
+                                }}
                             >
-                                <img src={item.image} alt="" />
-                                <div class="song__text">
-                                    <h4>{item.name}</h4>
-                                    <p>{item.singer}</p>
+                            </div>
+                        </div>
+                        <div className="music-player__controls">
+                            <div className={isRepeat
+                                ? "control-btn control-btn--active repeat-btn"
+                                : "control-btn repeat-btn"}
+                                onClick={() => setIsRepeat(!isRepeat)}
+                            >
+                                <i className="fas fa-redo-alt" />
+                            </div>
+                            <div className="control-btn prev-btn"
+                                onClick={() => handlePrevSongClick()}
+                            >
+                                <i className="fas fa-step-backward" />
+                            </div>
+                            <div
+                                className="control-btn toggle-play-btn"
+                                onClick={() => handleTogglePlayClick()}
+                            >
+                                <div className="play-btn">
+                                    <i className="fas fa-play" />
                                 </div>
-                                <div class="option-btn">
-                                    <i class="fas fa-ellipsis-h"></i>
+                                <div className="pause-btn">
+                                    <i className="fas fa-pause" />
                                 </div>
                             </div>
-                        ))
-                    }
+                            <div className="control-btn next-btn"
+                                onClick={() => handleNextSongClick()}
+                            >
+                                <i className="fas fa-step-forward" />
+                            </div>
+                            <div className={isRandom
+                                ? "control-btn control-btn--active random-btn"
+                                : "control-btn random-btn"}
+                                onClick={() => setIsRandom(!isRandom)}
+                            >
+                                <i className="fas fa-random" />
+                            </div>
+                        </div>
+                        <div className="progress">
+                            <input
+                                ref={eProgress}
+                                id="progress"
+                                type="range"
+                                min={0}
+                                max={100}
+                                defaultValue={0}
+                                step={1}
+                            />
+                            <span />
+                        </div>
+                    </div>
+                    <audio
+                        ref={audio}
+                        id="mucsic-player__audio"
+                        src={currentSong.audio}
+                    />
+                    {/* <div class="song song--play"> */}
+                    <div className="music-player__list-songs"
+                        ref={eListSongs}
+                    >
+                        {
+                            listSongs.map(item => (
+                                <div class="song"
+                                    onClick={() => handleSongClick(item)}
+                                >
+                                    <img src={item.image} alt="" />
+                                    <div class="song__text">
+                                        <h4>{item.name}</h4>
+                                        <p>{item.singer}</p>
+                                    </div>
+                                    <div class="option-btn">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </div>
+                                </div>
+                            ))
+                        }
 
-                </div>
-            </div >
-        </div>
+                    </div>
+                </div >
+            </div>
+            <Tour
+                steps={steps}
+                isOpen={isOpenTour}
+                onRequestClose={() => closeTour()}
+            />
+        </>
     );
 }
 
