@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { hanleChangeActiveItem } from "../../features/navigation-menu/navigationMenuSlice";
 
-import CV from "./cv";
 import IndicatorMenu from "./indicator-menu";
 import Introduce from "./introduce";
 import MainTitle from "./main-title";
@@ -40,7 +39,6 @@ function Header() {
                 <IndicatorMenu />
                 <MenuToggle />
             </div >
-            <CV />
         </div >
     );
 }

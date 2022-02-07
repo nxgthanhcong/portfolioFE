@@ -55,7 +55,7 @@ function RobotBtn(props) {
 
     return (
         <div
-            class="robot-btn"
+            className="robot-btn"
             onClick={() => setIsOpenTour("true")}
         >
             <i class="fas fa-robot"></i>

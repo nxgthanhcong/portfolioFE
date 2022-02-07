@@ -1,33 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import socialApi from "../../api/socialApi";
 
 function IndicatorMenu() {
 
+    const [fetchComplete, setFetchComplete] = useState(false);
+    const [listIndicatorMenu, setListIndicatorMenu] = useState(null);
     const [activeMenuItemClass, setActiveMenuItemClass] = useState("");
-    const listIndicatorMenu = [
-        {
-            name: "Twiter",
-            icon: "fab fa-twitter",
-            color: "#f53b57"
-        },
-        {
-            name: "Facebook",
-            icon: "fab fa-facebook-f",
-            color: "#5d62fb"
-        },
-        {
-            name: "Instagram",
-            icon: "fab fa-instagram",
-            color: "#0fbcf9"
-        },
-        {
-            name: "Linkedin",
-            icon: "fab fa-linkedin",
-            color: "#ffa801"
-        },
-    ]
+
+    useEffect(() => {
+        async function getDataFromApi() {
+            try {
+                const response = await socialApi.getAll();
+                if (response) {
+                    console.log("response", response);
+                    setListIndicatorMenu(response);
+                    setFetchComplete(true);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getDataFromApi();
+    }, [fetchComplete]);
 
     const handleMouseOver = function (item) {
-        setActiveMenuItemClass(item.name);
+        setActiveMenuItemClass(item.title);
     }
 
     const handleMouseLeave = function () {
@@ -38,9 +35,9 @@ function IndicatorMenu() {
         <div className="header__social indicator-navigation">
             <ul className="indicator-navigation__list">
                 {
-                    listIndicatorMenu && listIndicatorMenu.map(item => (
+                    fetchComplete && listIndicatorMenu.map(item => (
                         <li
-                            className={item.name === activeMenuItemClass
+                            className={item.title === activeMenuItemClass
                                 ? "indicator-navigation__item active"
                                 : "indicator-navigation__item"
                             }
@@ -52,7 +49,7 @@ function IndicatorMenu() {
                                 <span className="indicator-navigation__icon">
                                     <i className={item.icon} />
                                 </span>
-                                <span className="indicator-navigation__text">{item.name}</span>
+                                <span className="indicator-navigation__text">{item.title}</span>
                             </a>
                         </li >
                     ))
